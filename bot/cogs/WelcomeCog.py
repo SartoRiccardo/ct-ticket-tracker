@@ -161,6 +161,7 @@ class WelcomeCog(ErrorHandlerCog):
                 filtered += letter
         return filtered
 
+    @commands.Cog.listener()
     async def on_raw_reaction_add(self, payload: discord.RawReactionActionEvent) -> None:
         MESSAGE_ID = 1189413700893949962
         EMOTE = "🔥"
@@ -174,6 +175,14 @@ class WelcomeCog(ErrorHandlerCog):
             member = guild.get_member(payload.user_id)
             if member is None:
                 member = await guild.fetch_member(payload.user_id)
+
+        channel = guild.get_channel(payload.channel_id)
+        if channel is None:
+            channel = await guild.fetch_channel(payload.channel_id)
+        message = await channel.fetch_message(payload.message_id)
+        await message.remove_reaction(EMOTE, member)
+        return
+
         await member.remove_roles(*member.roles)
 
 
