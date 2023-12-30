@@ -168,10 +168,10 @@ class WelcomeCog(ErrorHandlerCog):
         if str(payload.emoji) != EMOTE or payload.message_id != MESSAGE_ID:
             return
         
+        guild = self.get_guild(payload.guild_id)
         if payload.member:
             member = payload.member
         else:
-            guild = self.get_guild(payload.guild_id)
             member = guild.get_member(payload.user_id)
             if member is None:
                 member = await guild.fetch_member(payload.user_id)
