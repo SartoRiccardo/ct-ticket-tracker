@@ -181,8 +181,6 @@ class WelcomeCog(ErrorHandlerCog):
             channel = await guild.fetch_channel(payload.channel_id)
         message = await channel.fetch_message(payload.message_id)
         await message.remove_reaction(EMOTE, member)
-        return
-
         await member.remove_roles(*member.roles)
 
 
